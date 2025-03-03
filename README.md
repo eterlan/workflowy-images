@@ -66,6 +66,13 @@ _(Credit for the Tampermonkey installation directions go to Frank Degenaar. I
   took the directions and screenshots he wrote from [the blogpost he wrote on
   the Workflowy Site](https://blog.workflowy.com/2016/01/06/inline-images/)._
 
+## Version History
+
+- 0.3: 
+  - Add support for Bilibili videos.
+  - Remove images once link is removed.
+  - Fix some bugs
+
 ## Credits
 
 I did not come up with this idea.
