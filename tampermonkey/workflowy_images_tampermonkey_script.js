@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         workflowy-images-and-bilibili-videos
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.31
 // @description  Embed image links into workflowy
 // @author       Jonathan Leung (https://github.com/jonleung)&eterlan(https://github.com/eterlan)
 // @match        https://workflowy.com/*
@@ -11,7 +11,23 @@
 // ==/UserScript==
 "use strict";
 
-var IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif", ".bmp"];
+// 在脚本最开始的部分，添加这个函数
+function addReferrerMeta() {
+    const meta = document.createElement('meta');
+    meta.name = 'referrer';
+    meta.content = 'no-referrer';
+    document.head.appendChild(meta);
+}
+
+(function() {
+    if (document.head) {
+        addReferrerMeta();
+    } else {
+        document.addEventListener('DOMContentLoaded', addReferrerMeta);
+    }
+})();
+
+var IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"];
 
 function createImageNodeAfterNode($node, imgSrc) {
   if ($node.parent().find(".content-img").length === 0) {
@@ -41,13 +57,17 @@ function generateImagesForContentNode(node) {
 
 function generateImagesForLinkNode(node) {
   var $node = $(node);
+  var href = $node.attr('href');
 
-  var url = $node.text();
+  // 如果没有 href 属性，直接返回
+  if (!href) return;
+
   var hasImageExtension = IMAGE_EXTENSIONS.some((ext) =>
-    url.toLowerCase().endsWith(ext)
+    href.toLowerCase().endsWith(ext)
   );
+
   if (hasImageExtension) {
-    createImageNodeAfterNode($node.parent().parent(), url);
+    createImageNodeAfterNode($node.parent().parent(), href);
   }
 }
 
@@ -82,7 +102,7 @@ function createBilibiliIframeAfterNode($node, videoId) {
 
 function generateVideoForLinkNode(node) {
   var $node = $(node);
-  var url = $node.text();
+  var url = $node.attr('href');
 
   // 检查是否是 B 站链接
   if (url.includes("bilibili.com/video")) {
@@ -94,24 +114,26 @@ function generateVideoForLinkNode(node) {
 }
 
 function checkForChanges() {
-  // 首先移除所有不再有对应链接的图片
+  // 清理不再需要的图片
   $("div.content-img").each(function (i, imgDiv) {
     var $imgDiv = $(imgDiv);
     var $prevContent = $imgDiv.prev(".content");
 
     // 检查前一个 content 元素中是否还包含图片链接
     var hasMarkdownImage = $prevContent.text().match(/\!\[.*\]\((.+)\)/);
-    var hasImageLink = false;
 
+    // 检查图片链接
+    var hasImageLink = false;
     $prevContent.find("a.contentLink").each(function (_, link) {
-      var url = $(link).text();
-      if (IMAGE_EXTENSIONS.some((ext) => url.toLowerCase().endsWith(ext))) {
+      var $link = $(link);
+      var href = $link.attr('href');
+      if (href && IMAGE_EXTENSIONS.some((ext) => href.toLowerCase().endsWith(ext))) {
         hasImageLink = true;
-        return false; // 跳出 each 循环
+        return false; // break
       }
     });
 
-    // 如果既没有 markdown 图片也没有图片链接，则移除图片 div
+    // 如果既没有 markdown 图片也没有图片链接，则移除
     if (!hasMarkdownImage && !hasImageLink) {
       $imgDiv.remove();
     }
@@ -124,7 +146,7 @@ function checkForChanges() {
     var hasVideoLink = false;
 
     $prevContent.find("a.contentLink").each(function (_, link) {
-      var url = $(link).text();
+      var url = $(link).attr('href');
       if (url.includes("bilibili.com/video")) {
         hasVideoLink = true;
         return false;
