@@ -72,6 +72,10 @@ _(Credit for the Tampermonkey installation directions go to Frank Degenaar. I
   - Add support for Bilibili videos.
   - Remove images once link is removed.
   - Fix some bugs
+- 0.31:
+  - 增加 webp 格式
+  - 修复 mac 不显示 b 站视频问题
+  - 改为识别链接而不是内容
 
 ## Credits
 
