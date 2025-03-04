@@ -8,6 +8,7 @@
 // @grant        none
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.13.1/underscore-min.js
+// @license MIT
 // ==/UserScript==
 "use strict";
 

@@ -42,24 +42,8 @@ For images that don't have the above those file endings, like say
 ## Tampermonkey Installation
 
 1. Install the [Tampermonkey](http://tampermonkey.net).
-2. Open the [Workflowy Image tampermonkey script](https://raw.githubusercontent.com/jonleung/workflowy-images/master/tampermonkey/workflowy_images_tampermonkey_script.js) and copy the entire contents of that file to your clipboard.
-3. Click on your Tampermonkey icon in your Browser and click "Add a new script…"
-
-   > ![](screenshots/github/tampermonkey_installation/new_script.png)
-
-4. Select everything in the resulting editor and delete it. It should look blank
-   blank like this:
-
-  > ![](screenshots/github/tampermonkey_installation/delete_script.png)
-
-5. Now in your empty editor, paste the code in  that you just copied from the
-   other file.
-
-6. Click the save icon:
-
-   > ![](screenshots/github/tampermonkey_installation/save_script.png)
-
-5. Then in your browser, refresh your `workflowy.com` window to let the
+2. Click install [GreasyFork - workflowy-images-and-bilibili-videos](https://greasyfork.org/zh-CN/scripts/528715-workflowy-images-and-bilibili-videos/code)
+3. Then in your browser, refresh your `workflowy.com` window to let the
    installation take effect.
 
 _(Credit for the Tampermonkey installation directions go to Frank Degenaar. I
@@ -76,6 +60,7 @@ _(Credit for the Tampermonkey installation directions go to Frank Degenaar. I
   - 增加 webp 格式
   - 修复 mac 不显示 b 站视频问题
   - 改为识别链接而不是内容
+  - 上传到 [GreasyFork](https://greasyfork.org/zh-CN/scripts/528715-workflowy-images-and-bilibili-videos/code)
 
 ## Credits
 
